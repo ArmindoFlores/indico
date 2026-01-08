@@ -16,11 +16,12 @@ from indico.modules.users.controllers import (RHAcceptRegistrationRequest, RHAdm
                                               RHUserDataExport, RHUserDataExportAPI, RHUserDataExportDownload,
                                               RHUserDelete, RHUserEmails, RHUserEmailsDelete, RHUserEmailsSetPrimary,
                                               RHUserEmailsVerify, RHUserFavorites, RHUserFavoritesAPI,
-                                              RHUserFavoritesCategoryAPI, RHUserFavoritesEventAPI, RHUserPreferences,
-                                              RHUserPreferencesMarkdownAPI, RHUserPreferencesMastodonServer,
-                                              RHUsersAdmin, RHUsersAdminCreate, RHUsersAdminMerge,
-                                              RHUsersAdminMergeCheck, RHUsersAdminSettings, RHUserSearch,
-                                              RHUserSearchInfo, RHUserSearchToken, RHUserSuggestionsRemove)
+                                              RHUserFavoritesCategoryAPI, RHUserFavoritesContributionAPI,
+                                              RHUserFavoritesEventAPI, RHUserPreferences, RHUserPreferencesMarkdownAPI,
+                                              RHUserPreferencesMastodonServer, RHUsersAdmin, RHUsersAdminCreate,
+                                              RHUsersAdminMerge, RHUsersAdminMergeCheck, RHUsersAdminSettings,
+                                              RHUserSearch, RHUserSearchInfo, RHUserSearchToken,
+                                              RHUserSuggestionsRemove)
 from indico.web.flask.wrappers import IndicoBlueprint
 
 
@@ -72,6 +73,10 @@ with _bp.add_prefixed_rules('/<int:user_id>'):
     _bp.add_url_rule('/api/favorites/events', 'user_favorites_event_api', RHUserFavoritesEventAPI)
     _bp.add_url_rule('/api/favorites/events/<int:event_id>', 'user_favorites_event_api',
                      RHUserFavoritesEventAPI, methods=('GET', 'PUT', 'DELETE'))
+    _bp.add_url_rule('/api/favorites/contributions/event/<int:event_id>', 'user_favorites_contribution_api',
+                     RHUserFavoritesContributionAPI)
+    _bp.add_url_rule('/api/favorites/contributions/<int:contrib_id>', 'user_favorites_contribution_api',
+                     RHUserFavoritesContributionAPI, methods=('GET', 'PUT', 'DELETE'))
     _bp.add_url_rule('/emails/', 'user_emails', RHUserEmails, methods=('GET', 'POST'))
     _bp.add_url_rule('/emails/verify/<token>', 'user_emails_verify', RHUserEmailsVerify)
     _bp.add_url_rule('/emails/<email>', 'user_emails_delete', RHUserEmailsDelete, methods=('DELETE',))
